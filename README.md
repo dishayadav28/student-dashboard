@@ -1,7 +1,7 @@
 #  Student Dashboard
 animated learning dashboard built as a frontend internship assignment.
 
- Live Demo: [your-vercel-url-here]
+ Live Demo: https://student-dashboard-gray-rho.vercel.app/
 
 
 
