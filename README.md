@@ -20,7 +20,7 @@ Lucide React (Icons)
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/your-username/student-dashboard.git
+git clone https://github.com/dishayadav28/student-dashboard.git
 cd student-dashboard
 ```
 
@@ -98,3 +98,20 @@ The course icon names are stored as plain text strings in Supabase. The challeng
 
 ### 3. Progress Bar Animation
 I wanted the progress bar to animate from 0% to the real value every time the page loads. The tricky part was making sure the animation starts after the card itself has finished appearing on screen.
+
+## Features
+
+- **Courses**: list fetched from Supabase in a Server Component. Each course has lesson notes with code samples and a multiple-choice quiz with explanations.
+- **Achievements**: XP, levels and 7 badges calculated from real progress.
+- **Settings**: display name, daily goal, accent color, reduce-motion, reset progress.
+
+## Additional Architecture Notes
+
+- Course list and course detail pages are Server Components (they fetch from Supabase). The interactive viewer, quiz, achievements and settings are Client Components.
+- Progress and settings live in a React Context (`AppProvider`) persisted to localStorage, so there is no login needed.
+- Progress bars use `scaleX` (transform) instead of `width`, so animations never trigger layout.
+- "Reduce motion" uses Framer Motion's `MotionConfig`, which disables transform animations app-wide.
+
+## Known Limitations
+
+Progress is stored in the browser, so it is per-device. A next step would be Supabase Auth plus a `user_progress` table.
