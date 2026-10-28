@@ -1,42 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
-import {
-  LayoutDashboard,
-  BookOpen,
-  Trophy,
-  Settings,
-} from 'lucide-react'
-
-const NAV_ITEMS = [
-  { id: 'dashboard',    icon: LayoutDashboard },
-  { id: 'courses',      icon: BookOpen },
-  { id: 'achievements', icon: Trophy },
-  { id: 'settings',     icon: Settings },
-]
+import { NAV_ITEMS, isActivePath } from '@/lib/nav'
 
 export default function MobileNav() {
-  const [active, setActive] = useState('dashboard')
+  const pathname = usePathname()
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around px-4 py-3"
-      style={{
-        background: 'var(--bg-surface)',
-        borderTop: '1px solid var(--border)',
-      }}
+      aria-label="Mobile navigation"
+      className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around px-4 py-3 md:hidden"
+      style={{ background: 'var(--bg-surface)', borderTop: '1px solid var(--border)' }}
     >
-      {NAV_ITEMS.map(({ id, icon: Icon }) => {
-        const isActive = active === id
+      {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+        const active = isActivePath(pathname, href)
         return (
-          <button
-            key={id}
-            onClick={() => setActive(id)}
-            className="relative p-2.5 rounded-xl border-0 bg-transparent cursor-pointer"
-            style={{ color: isActive ? 'var(--accent)' : 'var(--text-muted)' }}
+          <Link
+            key={href}
+            href={href}
+            aria-label={label}
+            className="relative rounded-xl p-2.5"
+            style={{ color: active ? 'var(--accent)' : 'var(--text-muted)' }}
           >
-            {isActive && (
+            {active && (
               <motion.div
                 layoutId="mobile-highlight"
                 className="absolute inset-0 rounded-xl"
@@ -44,8 +32,8 @@ export default function MobileNav() {
                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
               />
             )}
-            <Icon size={18} className="relative z-10" />
-          </button>
+            <Icon size={19} className="relative z-10" />
+          </Link>
         )
       })}
     </nav>

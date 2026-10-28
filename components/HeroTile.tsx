@@ -2,11 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { Flame } from 'lucide-react'
-
-const STREAK = 14
+import { useApp } from '@/lib/store'
+import { computeStreak } from '@/lib/streak'
 
 
 export default function HeroTile() {
+  const { settings, progress } = useApp()
+  const streak = computeStreak(progress.activeDays)
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',
@@ -68,7 +70,7 @@ export default function HeroTile() {
               color: 'var(--text-primary)',
             }}
           >
-            Welcome back, Disha!
+            Welcome back, {settings.name}!
           </h1>
           <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
             You have 4 active courses.
@@ -92,10 +94,10 @@ export default function HeroTile() {
             className="text-2xl font-bold leading-none"
             style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}
           >
-            {STREAK}
+            {streak}
           </span>
           <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            day streak
+            {streak === 0 ? 'Start your streak' : streak === 1 ? 'day streak' : 'days streak'}
           </span>
         </div>
       </div>
